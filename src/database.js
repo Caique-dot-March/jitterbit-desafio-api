@@ -1,12 +1,16 @@
 const { Pool } = require('pg');
 
-const pool = new Pool({
-  host: 'localhost',
-  port: 5433,
-  database: 'desafio_api',
-  user: 'api_user',
-  password: 'api123',
-});
+const pool = new Pool(
+  process.env.DATABASE_URL
+    ? { connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } }
+    : {
+        host: process.env.PGHOST || 'localhost',
+        port: process.env.PGPORT || 5433,
+        database: process.env.PGDATABASE || 'desafio_api',
+        user: process.env.PGUSER || 'api_user',
+        password: process.env.PGPASSWORD || 'api123',
+      }
+);
 
 // Cria as tabelas ao iniciar
 async function initDatabase() {
