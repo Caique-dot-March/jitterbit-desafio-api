@@ -10,7 +10,9 @@ async function start() {
       console.log(`Servidor rodando em http://localhost:${PORT}`);
     });
   } catch (error) {
-    console.error('Erro ao iniciar o servidor:', error.message);
+    console.error('Erro ao iniciar o servidor:', error.message || error);
+    console.error('Stack:', error.stack);
+    console.error('DATABASE_URL definida:', !!process.env.DATABASE_URL);
     process.exit(1);
   }
 }
